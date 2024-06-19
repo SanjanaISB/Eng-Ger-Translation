@@ -1,11 +1,13 @@
 import streamlit as st
 import tensorflow as tf
-from tensorflow import keras
+from tensorflow import keras  # Ensure compatibility with TensorFlow 2.15.0
 import numpy as np
 import pickle
 from transformers import pipeline
 import gdown
 import os
+import string
+import re
 
 # Define the custom standardization function
 @tf.keras.utils.register_keras_serializable()
@@ -197,6 +199,10 @@ with open('target_vectorization.pkl', 'rb') as f:
 sentiment_pipeline = pipeline("sentiment-analysis", model="oliverguhr/german-sentiment-bert")
 
 # Define translation function
+target_vocab = target_vectorization.get_vocabulary()
+target_index_lookup = dict(zip(range(len(target_vocab)), target_vocab))
+max_decoded_sentence_length = 30
+
 def decode_sequence(input_sentence):
     tokenized_input_sentence = source_vectorization([input_sentence])
     decoded_sentence = "[start]"
