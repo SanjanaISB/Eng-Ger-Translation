@@ -1,4 +1,5 @@
 streamlit
-tensorflow
-transformers
+tensorflow==2.15.0
+transformers==4.29.0
 gdown
+tf-keras==2.4.0  # tf-keras does not have versions corresponding directly to TensorFlow. Use a compatible version.
